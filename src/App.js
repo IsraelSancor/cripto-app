@@ -1,4 +1,4 @@
-// App com análise baseada em EMAs, RSI e MACD com interpretação
+
 import React, { useEffect, useState } from 'react';
 import { EMA, RSI, MACD } from 'technicalindicators';
 
@@ -24,9 +24,9 @@ export default function App() {
       setLoading(true);
       setError(null);
       try {
-        const url = \`https://api.coingecko.com/api/v3/coins/\${selected.id}/market_chart?vs_currency=usd&days=30&interval=daily\`;
+        const url = `https://api.coingecko.com/api/v3/coins/${selected.id}/market_chart?vs_currency=usd&days=30&interval=daily`;
         const res = await fetch(url);
-        if (!res.ok) throw new Error(\`Erro \${res.status}\`);
+        if (!res.ok) throw new Error(`Erro ${res.status}`);
         const data = await res.json();
         const closes = data.prices.map(p => p[1]);
         const lastClose = closes[closes.length - 1];
@@ -48,19 +48,19 @@ export default function App() {
         const direcaoMACD = macdUltimo.MACD > macdUltimo.signal ? 'alta' : 'baixa';
         const tendencia = ema9[ema9.length - 1] > ema21[ema21.length - 1] ? 'alta' : 'baixa';
 
-        const resumo = \`Preço atual: $\${lastClose.toFixed(2)} | RSI: \${rsiUltimo?.toFixed(1)} (\${rsiUltimo > 70 ? 'Sobrecompra' : rsiUltimo < 30 ? 'Sobrevenda' : 'Neutro'}) | EMAs: \${tendencia === 'alta' ? 'EMA9 acima da EMA21 (Alta)' : 'EMA9 abaixo da EMA21 (Baixa)'} | MACD sinaliza \${direcaoMACD}\`;
+        const resumo = `Preco atual: $${lastClose.toFixed(2)} | RSI: ${rsiUltimo?.toFixed(1)} (${rsiUltimo > 70 ? 'Sobrecompra' : rsiUltimo < 30 ? 'Sobrevenda' : 'Neutro'}) | EMAs: ${tendencia === 'alta' ? 'EMA9 acima da EMA21 (Alta)' : 'EMA9 abaixo da EMA21 (Baixa)'} | MACD sinaliza ${direcaoMACD}`;
 
         let interpretacao = '';
         if (tendencia === 'alta' && direcaoMACD === 'alta' && rsiUltimo < 70) {
-          interpretacao = 'Tendência de alta confirmada com impulso positivo. RSI ainda em zona saudável.';
+          interpretacao = 'Tendencia de alta confirmada com impulso positivo. RSI ainda em zona saudavel.';
         } else if (tendencia === 'baixa' && direcaoMACD === 'baixa' && rsiUltimo > 30) {
-          interpretacao = 'Tendência de baixa continua. Mercado enfraquecido, mas RSI fora de sobrevenda.';
+          interpretacao = 'Tendencia de baixa continua. Mercado enfraquecido, mas RSI fora de sobrevenda.';
         } else if (rsiUltimo > 70) {
-          interpretacao = 'RSI indica sobrecompra. Possível correção à vista, cuidado com entradas tardias.';
+          interpretacao = 'RSI indica sobrecompra. Possivel correcao a vista, cuidado com entradas tardias.';
         } else if (rsiUltimo < 30) {
-          interpretacao = 'RSI em sobrevenda. Pode haver formação de fundo, mas sem confirmação de reversão ainda.';
+          interpretacao = 'RSI em sobrevenda. Pode haver formacao de fundo, mas sem confirmacao de reversao ainda.';
         } else {
-          interpretacao = 'Indicadores mistos. Aguardar mais confirmação antes de entrar.';
+          interpretacao = 'Indicadores mistos. Aguardar mais confirmacao antes de entrar.';
         }
 
         setPrice(lastClose);
@@ -99,7 +99,7 @@ export default function App() {
           <h2>{selected.symbol}/USD</h2>
           <p style={{ fontSize: 24 }}>${price.toFixed(2)}</p>
           <p>{indicadores}</p>
-          <p style={{ marginTop: 10, color: '#333' }}><strong>Análise:</strong> {analiseTexto}</p>
+          <p style={{ marginTop: 10, color: '#333' }}><strong>Analise:</strong> {analiseTexto}</p>
         </div>
       )}
     </div>
